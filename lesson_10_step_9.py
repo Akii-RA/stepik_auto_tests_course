@@ -1,29 +1,37 @@
+# вызов нужных библиотек
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import math
 
+# функция для вычисления математической формулы
 def calc(x):
     return str(math.log(abs(12 * math.sin(int(x)))))
 
+# инициализация webdriver и открытие страницы
 browser = webdriver.Chrome()
 link = "http://suninjuly.github.io/explicit_wait2.html"
 browser.get(link)
 
+# определение нужной цены дома
 price = WebDriverWait(browser, 12).until(
     EC.text_to_be_present_in_element((By.ID, "price"), "$100")
 )
 
+# бронь дома
 book = browser.find_element(By.ID, "book")
 book.click()
 
+# вычисление мат формуды
 x_element = browser.find_element(By.ID, "input_value")
 x = x_element.text
 y = calc(x)
 
+# ввод результата вычислений
 input1 = browser.find_element(By.ID, "answer")
 input1.send_keys(y)
 
+# нажатие кнопки
 submit = browser.find_element(By.ID, "solve")
 submit.click()
